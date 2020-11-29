@@ -6,9 +6,12 @@ class ListItem {
 
     const char* item;
     ListItem* next = nullptr;
+
     
   public:
-    
+
+   
+
     ListItem(const char *newItem) {
       item = newItem;
       next = nullptr;
@@ -25,6 +28,10 @@ class ListItem {
     const char* view() {
       return item;
     }
+    void setItem(const char* value) {
+      item = value;
+    }
+
 
 };
 
@@ -78,21 +85,26 @@ class LinkedList {
       }
     }
 
-
-
-    int findItemMatching(const char* item) {
-      ListItem* current_item = first_item;
-      ListItem* next_item = first_item->nextItem();
-      int i = 0;
-      while (next_item != nullptr) {
-        if(current_item->view() == item) {
-          return i;
-        }
-        current_item=next_item;
-        next_item = current_item->nextItem();
-        i++;
+    void insert_position(int pos, const char* value) {
+      ListItem *cur;
+      ListItem *temp = new ListItem(value);
+      cur = first_item;
+      for (int i=1; i < pos; i++) {
+        cur = cur -> nextItem();
       }
+      temp->setNextItem(cur->nextItem());
+      cur->setNextItem(temp);
+      cur = cur -> nextItem();
     }
+
+    void item_position(int pos) {
+      ListItem *cur;
+      cur = first_item;
+      for (int i = 0; i < pos; i++) {
+        cur = cur -> nextItem();
+      }
+      cout << cur->view() << endl;
+    };
 
 };
 
@@ -105,6 +117,9 @@ int main() {
   l.addListItem("paul");
   l.outputList();
   l.outputLength();
-  l.findItemMatching("paul");
-  
+  l.insert_position(2, "Ryan");
+  l.outputList();
+  l.item_position(2);
+
+
 }
